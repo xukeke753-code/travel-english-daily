@@ -117,7 +117,7 @@
     </section>
 
     <section class="grid">
-      <article class="card">
+      <article class="card" id="coreCard">
         <span class="label">今日第一句 · 先把它说出口</span>
         <p class="english" id="coreEnglish">Could you help me, please?</p>
         <p class="chinese" id="coreChinese">请问你能帮我吗？</p>
@@ -254,7 +254,7 @@
       dialogueList.appendChild(bubble);
     });
 
-    document.querySelectorAll('.card:first-of-type .speak').forEach(button => { button.dataset.text = lesson.core; });
+    document.querySelectorAll('#coreCard .speak').forEach(button => { button.dataset.text = lesson.core; });
 
     const statusNodes = [...document.querySelectorAll('.status')];
     const setStatus = message => statusNodes.forEach(node => node.textContent = message);
