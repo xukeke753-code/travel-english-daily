@@ -86,6 +86,8 @@
     .bubble .role { margin-bottom: 5px; color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
     .bubble .line { font-size: 20px; font-weight: 750; }
     .bubble .translation { color: var(--muted); }
+    .bubble .hint { margin-top: 7px; color: #7b4c00; font-size: 13px; }
+    .level { display: inline-flex; margin-left: 7px; padding: 2px 8px; color: var(--ink); background: rgba(244, 201, 93, .5); border-radius: 999px; letter-spacing: 0; text-transform: none; }
     .bubble .actions { margin-top: 12px; }
     .bubble .speak { min-height: 38px; padding: 7px 11px; font-size: 13px; }
     .plan { display: grid; gap: 10px; }
@@ -111,12 +113,12 @@
       <div class="eyebrow" id="dayLabel">TRAVEL ENGLISH · DAY 1 · 30 MIN</div>
       <h1 id="heroTitle">Ask for help.<br>先学会开口求助。</h1>
       <p id="lessonGoal">今天只解决一件事：在陌生环境里，用一句简单、礼貌、很难说错的话开启交流。</p>
-      <div class="route"><span>高频</span><span>零基础友好</span><span>机场 · 酒店 · 街头通用</span></div>
+      <div class="route"><span>15句真实对话</span><span>零基础友好</span><span>从高频到扩展</span></div>
     </section>
 
     <section class="grid">
       <article class="card">
-        <span class="label">今日核心句</span>
+        <span class="label">今日第一句 · 先把它说出口</span>
         <p class="english" id="coreEnglish">Could you help me, please?</p>
         <p class="chinese" id="coreChinese">请问你能帮我吗？</p>
         <div class="actions">
@@ -126,69 +128,93 @@
         <p class="status" aria-live="polite"></p>
       </article>
       <aside class="card mini">
-        <h2>什么时候用？</h2>
-        <div class="mini-row"><strong>AIRPORT</strong>找不到登机口</div>
-        <div class="mini-row"><strong>HOTEL</strong>需要前台协助</div>
-        <div class="mini-row"><strong>STREET</strong>需要向路人问路</div>
+        <h2>今天怎么学？</h2>
+        <div class="mini-row"><strong>1—5</strong>必须会说的高频句</div>
+        <div class="mini-row"><strong>6—10</strong>最常见的互动句</div>
+        <div class="mini-row"><strong>11—15</strong>实用扩展句</div>
       </aside>
     </section>
 
     <section class="grid">
       <article class="card">
-        <h2>真实对话 · 在酒店大堂</h2>
-        <div class="dialogue">
-          <div class="bubble">
-            <div class="role">Staff · 工作人员</div>
-            <div class="line" id="otherEnglish">Of course. What do you need?</div>
-            <div class="translation" id="otherChinese">当然可以。您需要什么？</div>
-            <div class="actions">
-              <button class="speak" data-text="Of course. What do you need?" data-rate=".92">▶ 听正常语速</button>
-              <button class="speak slow" data-text="Of course. What do you need?" data-rate=".68">◷ 听慢速</button>
-            </div>
-          </div>
-          <div class="bubble you">
-            <div class="role">You · 你</div>
-            <div class="line" id="replyEnglish">I can't find my room.</div>
-            <div class="translation" id="replyChinese">我找不到我的房间。</div>
-            <div class="actions">
-              <button class="speak" data-text="I can't find my room." data-rate=".92">▶ 听正常语速</button>
-              <button class="speak slow" data-text="I can't find my room." data-rate=".68">◷ 听慢速</button>
-            </div>
-          </div>
-        </div>
+        <h2 id="dialogueTitle">真实对话 · 一个旅游场景</h2>
+        <div class="dialogue" id="dialogueList"></div>
+        <p class="status" id="dialogueStatus" aria-live="polite"></p>
       </article>
 
       <aside class="card">
         <h2>30 分钟练习</h2>
         <div class="plan">
-          <label><input type="checkbox"><span>听核心句 5 遍</span><small>5 分</small></label>
-          <label><input type="checkbox"><span>看中文跟读 10 遍</span><small>8 分</small></label>
-          <label><input type="checkbox"><span>完成角色对话</span><small>7 分</small></label>
-          <label><input type="checkbox"><span>脱离文字说出来</span><small>7 分</small></label>
-          <label><input type="checkbox"><span>最后复述 3 遍</span><small>3 分</small></label>
+          <label><input type="checkbox"><span>听懂场景和前5句</span><small>5 分</small></label>
+          <label><input type="checkbox"><span>15句逐句听读模仿</span><small>10 分</small></label>
+          <label><input type="checkbox"><span>分角色完成两轮对话</span><small>8 分</small></label>
+          <label><input type="checkbox"><span>遮住英文回忆与替换</span><small>5 分</small></label>
+          <label><input type="checkbox"><span>旅行小任务与复盘</span><small>2 分</small></label>
         </div>
       </aside>
     </section>
 
     <section class="card" style="margin-top:18px">
-      <div class="tip"><strong>今天不纠结语法。</strong> 即使只说 “Help me, please.”，只要对方明白，你就已经完成了一次有效沟通。</div>
+      <div class="tip"><strong>今天不追求全部背下来。</strong> 先掌握前5句，再听懂后10句；只要双方明白，沟通就成功了。</div>
     </section>
     <footer>语音由设备中的英语语音引擎实时朗读；正式版可替换为固定的高质量英语音频。</footer>
   </main>
 
   <script>
     const params = new URLSearchParams(location.search);
+    const defaultDialogue = [
+      { role: 'You · 你', en: 'Excuse me.', zh: '打扰一下。', tip: '先礼貌叫住对方。' },
+      { role: 'Staff · 工作人员', en: 'Yes?', zh: '您好？', tip: '听到这里，就可以说出请求。' },
+      { role: 'You · 你', en: 'Could you help me, please?', zh: '请问你能帮帮我吗？', tip: '最重要的求助句。' },
+      { role: 'Staff · 工作人员', en: 'Of course.', zh: '当然可以。', tip: 'of course 表示“当然”。' },
+      { role: 'Staff · 工作人员', en: 'What do you need?', zh: '您需要什么？', tip: 'need 是“需要”。' },
+      { role: 'You · 你', en: "I can't find my room.", zh: '我找不到我的房间。', tip: "把 room 换成 gate、hotel 或 bag。" },
+      { role: 'Staff · 工作人员', en: 'What is your room number?', zh: '您的房间号是多少？', tip: '注意听 room number。' },
+      { role: 'You · 你', en: 'Room five zero eight.', zh: '508号房。', tip: '房间号可以逐个数字读。' },
+      { role: 'Staff · 工作人员', en: 'May I see your key card?', zh: '我可以看一下您的房卡吗？', tip: 'May I see… 是常见请求。' },
+      { role: 'You · 你', en: 'Yes, here it is.', zh: '可以，给您。', tip: '递东西时常用 here it is。' },
+      { role: 'Staff · 工作人员', en: 'Take the elevator to the fifth floor.', zh: '请乘电梯到五楼。', tip: '抓住 elevator 和 fifth floor。' },
+      { role: 'You · 你', en: 'Which way is the elevator?', zh: '电梯往哪边走？', tip: 'Which way… 用来问方向。' },
+      { role: 'Staff · 工作人员', en: "It's on your left.", zh: '它在您的左边。', tip: 'left 是左边，right 是右边。' },
+      { role: 'You · 你', en: 'Thank you very much.', zh: '非常感谢。', tip: '完成交流时礼貌致谢。' },
+      { role: 'Staff · 工作人员', en: "You're welcome.", zh: '不客气。', tip: '听懂即可，不必强记。' }
+    ];
+
+    function readDialogue() {
+      const raw = params.get('dialogue');
+      if (raw) {
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length) {
+            return parsed.slice(0, 20).map((item, index) => ({
+              role: String(item.role || item.r || (index % 2 ? 'Staff · 工作人员' : 'You · 你')),
+              en: String(item.en || item.e || ''),
+              zh: String(item.zh || item.z || ''),
+              tip: String(item.tip || item.t || '')
+            })).filter(item => item.en);
+          }
+        } catch (_) {}
+      }
+
+      const hasLegacyLines = ['core', 'other', 'reply'].some(name => params.has(name));
+      if (hasLegacyLines) {
+        return [
+          { role: 'You · 你', en: params.get('core') || defaultDialogue[2].en, zh: params.get('coreZh') || defaultDialogue[2].zh, tip: '今日最重要的一句。' },
+          { role: 'Staff · 工作人员', en: params.get('other') || defaultDialogue[4].en, zh: params.get('otherZh') || defaultDialogue[4].zh, tip: '注意听对方的关键词。' },
+          { role: 'You · 你', en: params.get('reply') || defaultDialogue[5].en, zh: params.get('replyZh') || defaultDialogue[5].zh, tip: '根据真实需要替换最后的名词。' }
+        ];
+      }
+      return defaultDialogue;
+    }
+
+    const dialogue = readDialogue();
     const lesson = {
       day: params.get('day') || '1',
       topic: params.get('topic') || 'Ask for help.',
       topicZh: params.get('topicZh') || '先学会开口求助。',
       goal: params.get('goal') || '今天只解决一件事：在陌生环境里，用一句简单、礼貌、很难说错的话开启交流。',
-      core: params.get('core') || 'Could you help me, please?',
-      coreZh: params.get('coreZh') || '请问你能帮我吗？',
-      other: params.get('other') || 'Of course. What do you need?',
-      otherZh: params.get('otherZh') || '当然可以。您需要什么？',
-      reply: params.get('reply') || "I can't find my room.",
-      replyZh: params.get('replyZh') || '我找不到我的房间。'
+      core: params.get('core') || dialogue.find(item => /You|你|Traveler|旅客/i.test(item.role))?.en || dialogue[0].en,
+      coreZh: params.get('coreZh') || dialogue.find(item => /You|你|Traveler|旅客/i.test(item.role))?.zh || dialogue[0].zh
     };
 
     document.title = `旅行英语 Day ${lesson.day}｜${lesson.topic}`;
@@ -197,13 +223,38 @@
     document.getElementById('lessonGoal').textContent = lesson.goal;
     document.getElementById('coreEnglish').textContent = lesson.core;
     document.getElementById('coreChinese').textContent = lesson.coreZh;
-    document.getElementById('otherEnglish').textContent = lesson.other;
-    document.getElementById('otherChinese').textContent = lesson.otherZh;
-    document.getElementById('replyEnglish').textContent = lesson.reply;
-    document.getElementById('replyChinese').textContent = lesson.replyZh;
+    document.getElementById('dialogueTitle').textContent = `真实对话 · ${lesson.topicZh}`;
 
-    const speechTexts = [lesson.core, lesson.core, lesson.other, lesson.other, lesson.reply, lesson.reply];
-    document.querySelectorAll('.speak').forEach((button, index) => { button.dataset.text = speechTexts[index]; });
+    const dialogueList = document.getElementById('dialogueList');
+    dialogue.forEach((item, index) => {
+      const bubble = document.createElement('div');
+      const isYou = /You|你|Traveler|旅客/i.test(item.role);
+      bubble.className = `bubble${isYou ? ' you' : ''}`;
+      const level = index < 5 ? '必会高频' : index < 10 ? '常见互动' : '实用扩展';
+      bubble.innerHTML = `
+        <div class="role"></div>
+        <div class="line"></div>
+        <div class="translation"></div>
+        <div class="hint"></div>
+        <div class="actions">
+          <button class="speak" data-rate=".92">▶ 正常语速</button>
+          <button class="speak slow" data-rate=".68">◷ 慢速发音</button>
+        </div>`;
+      const roleNode = bubble.querySelector('.role');
+      roleNode.textContent = `${index + 1}. ${item.role}`;
+      const levelNode = document.createElement('span');
+      levelNode.className = 'level';
+      levelNode.textContent = level;
+      roleNode.appendChild(levelNode);
+      bubble.querySelector('.line').textContent = item.en;
+      bubble.querySelector('.translation').textContent = item.zh;
+      const hintNode = bubble.querySelector('.hint');
+      hintNode.textContent = item.tip ? `使用提示：${item.tip}` : '';
+      bubble.querySelectorAll('.speak').forEach(button => { button.dataset.text = item.en; });
+      dialogueList.appendChild(bubble);
+    });
+
+    document.querySelectorAll('.card:first-of-type .speak').forEach(button => { button.dataset.text = lesson.core; });
 
     const statusNodes = [...document.querySelectorAll('.status')];
     const setStatus = message => statusNodes.forEach(node => node.textContent = message);
